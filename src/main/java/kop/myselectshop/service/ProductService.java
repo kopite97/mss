@@ -6,6 +6,7 @@ import kop.myselectshop.dto.ProductMyPriceRequestDto;
 import kop.myselectshop.dto.ProductRequestDto;
 import kop.myselectshop.dto.ProductResponseDto;
 import kop.myselectshop.entity.Product;
+import kop.myselectshop.naver.dto.ItemDto;
 import kop.myselectshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,13 @@ public class ProductService {
         }
 
         return responseDtoList;
+    }
+
+    @Transactional
+    public void updateBySearch(Long id, ItemDto itemDto) {
+        Product product = productRepository.findById(id).orElseThrow(() ->
+            new NullPointerException("해당 상품은 존재하지 않습니다."));
+
+        product.updateByItemDto(itemDto);
     }
 }
